@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Array Sum Calculator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .container {
+            border: 2px solid silver;
+            font-family:'Times New Roman', Times, serif;
+            text-align: center;
+            background-color:rgb(235, 230, 230);
+            width: 600px;
+            height: auto;
+            border-radius: 20px;
+            margin-top: 20px;
+            padding: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Get Elements For Desired Sum</h1><br>
+
+        <h3>Here's Your Set of Elements</h3><br>
+        <h4 id='elements' style="color: blue;"></h4><br>
+
+        <input type="text" id="requiredSum" placeholder="Enter Required Sum"><br><br>
+        <input type="button" class="btn btn-primary" value="Get" onclick="calculate()"><br><br>
+
+        <h3>Resulting Array For Required Sum</h3><br>
+        <h4 id='resultBox'></h4>
+    </div>
+
+    <script>
+        let numbers = [1,2,3,-2];//taking array
+        document.getElementById('elements').innerHTML = '[' + numbers + ']';//showing array
+        let resultBox = document.getElementById('resultBox');//taking reference of result 
+
+        let calculate = () => {
+            let result = []; //result array
+            let requiredSum = Number(document.getElementById('requiredSum').value);
+            let minLength = numbers.length;//asigning the highest length of the array to minLength
+
+            for(loop = 1; loop < Math.pow(2, numbers.length); loop++) {
+                let tempCombination = [];
+                let tempSum = 0;
+
+                numbers.map((element, index) => {
+                    if(loop & Math.pow(2, index)) {
+                        tempCombination.push(element);
+                        tempSum += element //sum elements of tempCombination array
+                    }
+                });
+
+                //store tempCombination in result only if length is minimum and the tempSum is equal to required sum 
+                if (tempSum == requiredSum && tempCombination.length < minLength) {
+                    result = tempCombination;
+                    minLength = tempCombination.length;
+                }
+            }
+
+            if (result == '') {
+                resultBox.innerHTML = 'Entered Sum Cannot Be Calculated';
+                resultBox.setAttribute('class', 'alert alert-danger');
+            } else {
+                resultBox.innerHTML = '[' + result + ']';
+                resultBox.setAttribute('class', 'alert alert-success');
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>
